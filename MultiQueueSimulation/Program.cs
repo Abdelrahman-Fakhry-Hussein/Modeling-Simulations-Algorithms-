@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,12 +17,6 @@ namespace MultiQueueSimulation
         static void Main()
         {
             SimulationSystem system = new SimulationSystem();
-
-            string file = @"D:\Material of Faculity level 4\Semester 1\Modeling & Simulation\Sec pdf\Lab 2_Task1\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueSimulation\TestCases\TestCase1.txt";
-            system.Read_file(file);
-
-
-
             string result = TestingManager.Test(system, Constants.FileNames.TestCase1);
             MessageBox.Show(result);
             Application.EnableVisualStyles();
