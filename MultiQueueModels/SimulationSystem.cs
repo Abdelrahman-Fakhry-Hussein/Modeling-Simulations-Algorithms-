@@ -557,8 +557,7 @@ namespace MultiQueueModels
                     int ClockArrivalTimes = (matchingDistribution_for_arrival.Time + SimulationTable[i - 2].ArrivalTime);
                     int min_wait = int.MaxValue;
                     int server_if_not = -1;
-                    int ser = 0;
-                    for (int server = 0; server < Servers.Count; server++)
+                  for (int server = 0; server < Servers.Count; server++)
                     {
                         TimeDistribution Servicetime = null;
 
@@ -568,9 +567,9 @@ namespace MultiQueueModels
                             {
 
                                 min_wait = Servers[server].FinishTime - ClockArrivalTimes;
-                                server_if_not = ser;
+                                server_if_not = server;
                             }
-                            ser++;
+                          
                             foreach (var timeDistribution in Servers[server_if_not].TimeDistribution)
                             {
                                 if (RandomServices >= timeDistribution.MinRange && RandomServices <= timeDistribution.MaxRange)
