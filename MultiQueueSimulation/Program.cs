@@ -21,16 +21,17 @@ namespace MultiQueueSimulation
             SimulationSystem system = new SimulationSystem();
             system = readInputFromFile("E:\\الترم الاول\\Template_Students\\MultiQueueSimulation\\MultiQueueSimulation\\TestCases\\TestCase1.txt",system);
 
-            Console.WriteLine(system.NumberOfServers);
 
             string result = TestingManager.Test(system, Constants.FileNames.TestCase1);
             MessageBox.Show(result);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-           
+            Console.WriteLine(system.NumberOfServers);
+
+
         }
-      static SimulationSystem readInputFromFile(String path, SimulationSystem system)
+        static SimulationSystem readInputFromFile(String path, SimulationSystem system)
         {
             String filePath = path;
             String[] inputs = File.ReadAllLines(filePath);
