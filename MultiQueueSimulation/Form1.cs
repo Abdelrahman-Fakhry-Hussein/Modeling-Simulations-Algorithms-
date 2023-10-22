@@ -14,11 +14,18 @@ namespace MultiQueueSimulation
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        List<SimulationCase> simulationtable;
+        public Form1(List<SimulationCase> x)
         {
+            simulationtable = x;
             InitializeComponent();
         }
-        
-      
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+           
+            dataGridView1.DataSource = simulationtable;
+            
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace MultiQueueSimulation
             SimulationSystem system = new SimulationSystem();
 
 
-            string file = @"D:\Material of Faculity level 4\Semester 1\Modeling & Simulation\Sec pdf\Lab 2_Task1\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueSimulation\TestCases\TestCase1.txt";
+            string file = @"E:\الترم الاول\Template_Students\MultiQueueSimulation\MultiQueueSimulation\TestCases\TestCase1.txt";
             system.Read_file(file);
 
             if (system.SelectionMethod.ToString() == "HighestPriority")
@@ -43,7 +43,7 @@ namespace MultiQueueSimulation
             MessageBox.Show(result);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Form1(system.SimulationTable));
             Console.WriteLine(system.NumberOfServers);
 
 
