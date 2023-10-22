@@ -24,7 +24,7 @@ namespace MultiQueueSimulation
             //string file = @"D:\Material of Faculity level 4\Semester 1\Modeling & Simulation\Sec pdf\Lab 2_Task1\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueSimulation\TestCases\TestCase1.txt";
             system.Read_file("E:\\الترم الاول\\Template_Students\\MultiQueueSimulation\\MultiQueueSimulation\\TestCases\\TestCase1.txt");
             system.Fun_P();
-           //system.RandomMethod();
+          // system.RandomMethod();
             List<SimulationCase> outs = system.return_data_of_server(2);
             string result = TestingManager.Test(system, Constants.FileNames.TestCase1);
 
