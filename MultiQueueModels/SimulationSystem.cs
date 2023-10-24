@@ -664,6 +664,356 @@ namespace MultiQueueModels
                 }
 
             } }
+
+
+
+
+
+
+        public void Least_utlization()
+        {
+
+
+
+
+            Random randoms = new Random();
+
+            // Generate a random number within the specified range
+
+
+            if (StoppingCriteria.ToString() == "NumberOfCustomers")
+            {
+                Console.WriteLine(StoppingCriteria);
+                for (int i = 1; i <= StoppingNumber; i++)
+                {
+                    int RandomServices = randoms.Next(1, 101);
+
+                    int Randomfor_Intrearival = randoms.Next(1, 101);
+                    Console.WriteLine(Randomfor_Intrearival);
+
+
+                    if (i == 1)
+                    {
+                        TimeDistribution matchingDistribution = null;
+                        foreach (var timeDistribution in Servers[0].TimeDistribution)
+                        {
+                            if (RandomServices >= timeDistribution.MinRange && RandomServices <= timeDistribution.MaxRange)
+                            {
+                                matchingDistribution = timeDistribution;
+                                break; // Exit the loop when a match is found
+                            }
+                        }
+                        SimulationTable.Add(new SimulationCase
+                        {
+                            AssignedServer = Servers[0],
+                            CustomerNumber = i,
+                            RandomInterArrival = Randomfor_Intrearival,
+                            ArrivalTime = 0,
+                            InterArrival = 0,
+                            RandomService = RandomServices,
+                            StartTime = 0,
+                            ServiceTime = matchingDistribution.Time,
+                            EndTime = matchingDistribution.Time,
+                            TimeInQueue = 0
+                        });
+                        Servers[0].FinishTime = matchingDistribution.Time;
+                        Servers[0].TotalWorkingTime += matchingDistribution.Time;
+                    }
+                    else
+                    {
+                        TimeDistribution matchingDistribution_for_arrival = null;
+                        foreach (var timeDistribution in InterarrivalDistribution)
+                        {
+                            if (Randomfor_Intrearival >= timeDistribution.MinRange && Randomfor_Intrearival <= timeDistribution.MaxRange)
+                            {
+                                matchingDistribution_for_arrival = timeDistribution;
+                                break; // Exit the loop when a match is found
+                            }
+                        }
+                        bool temp = false;
+                        int ser = 0, ArrivalTimes = (matchingDistribution_for_arrival.Time + SimulationTable[i - 2].ArrivalTime), min_wait = int.MaxValue, server_if_not = -1;
+                        int minutili = int.MaxValue, serv_if_least = -1;
+                        foreach (var se in Servers)
+                        {
+
+                            if (ArrivalTimes < se.FinishTime)
+                            {
+                                if (se.FinishTime - ArrivalTimes < min_wait)
+                                {
+
+                                    min_wait = se.FinishTime - ArrivalTimes;
+                                    server_if_not = ser;
+                                }
+                                // temp = false;
+
+
+                            }
+                            else
+                            {
+                                if (minutili > se.TotalWorkingTime)
+                                {
+                                    minutili = se.TotalWorkingTime;
+                                    serv_if_least = ser;
+
+                                }
+                                temp = true;
+
+                            }
+                            ser++;
+                        }
+
+
+                        if (temp == true)
+                        {
+                            TimeDistribution matchingDistribution = null;
+                            foreach (var timeDistribution in Servers[serv_if_least].TimeDistribution)
+                            {
+                                if (RandomServices >= timeDistribution.MinRange && RandomServices <= timeDistribution.MaxRange)
+                                {
+                                    matchingDistribution = timeDistribution;
+                                    break; // Exit the loop when a match is found
+                                }
+                            }
+
+                            SimulationTable.Add(new SimulationCase
+                            {
+                                AssignedServer = Servers[serv_if_least],
+                                CustomerNumber = i,
+                                RandomInterArrival = Randomfor_Intrearival,
+                                ArrivalTime = ArrivalTimes,
+                                InterArrival = matchingDistribution_for_arrival.Time,
+                                RandomService = RandomServices,
+                                StartTime = ArrivalTimes,
+                                ServiceTime = matchingDistribution.Time,
+                                EndTime = ArrivalTimes + matchingDistribution.Time,
+                                TimeInQueue = 0
+                            });
+                            Servers[serv_if_least].FinishTime = ArrivalTimes + matchingDistribution.Time;
+                            Servers[serv_if_least].TotalWorkingTime += matchingDistribution.Time;
+
+
+                        }
+                        else
+                        {
+                            TimeDistribution matchingDistribution = null;
+                            foreach (var timeDistribution in Servers[server_if_not].TimeDistribution)
+                            {
+                                if (RandomServices >= timeDistribution.MinRange && RandomServices <= timeDistribution.MaxRange)
+                                {
+                                    matchingDistribution = timeDistribution;
+                                    break; // Exit the loop when a match is found
+                                }
+                            }
+                            SimulationTable.Add(new SimulationCase
+                            {
+                                AssignedServer = Servers[server_if_not],
+                                CustomerNumber = i,
+                                RandomInterArrival = Randomfor_Intrearival,
+                                ArrivalTime = ArrivalTimes,
+                                InterArrival = matchingDistribution_for_arrival.Time,
+                                RandomService = RandomServices,
+                                StartTime = Servers[server_if_not].FinishTime,
+                                ServiceTime = matchingDistribution.Time,
+                                EndTime = Servers[server_if_not].FinishTime + matchingDistribution.Time,
+                                TimeInQueue = Servers[server_if_not].FinishTime - ArrivalTimes
+                            });
+                            Servers[server_if_not].FinishTime += matchingDistribution.Time;
+                            Servers[server_if_not].TotalWorkingTime += matchingDistribution.Time;
+                        }
+
+
+
+                    }
+                }
+
+            }
+            else
+            {
+
+
+
+
+
+
+                int i = 1;
+                while (true)
+                {
+
+
+
+
+
+
+                    int RandomServices = randoms.Next(1, 101);
+
+                    int Randomfor_Intrearival = randoms.Next(1, 101);
+                    Console.WriteLine(Randomfor_Intrearival);
+
+
+                    if (i == 1)
+                    {
+                        TimeDistribution matchingDistribution = null;
+                        foreach (var timeDistribution in Servers[0].TimeDistribution)
+                        {
+                            if (RandomServices >= timeDistribution.MinRange && RandomServices <= timeDistribution.MaxRange)
+                            {
+                                matchingDistribution = timeDistribution;
+                                break; // Exit the loop when a match is found
+                            }
+                        }
+                        SimulationTable.Add(new SimulationCase
+                        {
+                            AssignedServer = Servers[0],
+                            CustomerNumber = i,
+                            RandomInterArrival = Randomfor_Intrearival,
+                            ArrivalTime = 0,
+                            InterArrival = 0,
+                            RandomService = RandomServices,
+                            StartTime = 0,
+                            ServiceTime = matchingDistribution.Time,
+                            EndTime = matchingDistribution.Time,
+                            TimeInQueue = 0
+                        });
+                        Servers[0].FinishTime = matchingDistribution.Time;
+                        Servers[0].TotalWorkingTime += matchingDistribution.Time;
+                    }
+                    else
+                    {
+                        TimeDistribution matchingDistribution_for_arrival = null;
+                        foreach (var timeDistribution in InterarrivalDistribution)
+                        {
+                            if (Randomfor_Intrearival >= timeDistribution.MinRange && Randomfor_Intrearival <= timeDistribution.MaxRange)
+                            {
+                                matchingDistribution_for_arrival = timeDistribution;
+                                break; // Exit the loop when a match is found
+                            }
+                        }
+                        bool temp = false;
+                        int ser = 0, ArrivalTimes = (matchingDistribution_for_arrival.Time + SimulationTable[i - 2].ArrivalTime), min_wait = int.MaxValue, server_if_not = -1;
+                        int minutili = int.MaxValue, serv_if_least = -1;
+                        foreach (var se in Servers)
+                        {
+
+                            if (ArrivalTimes < se.FinishTime)
+                            {
+                                if (se.FinishTime - ArrivalTimes < min_wait)
+                                {
+
+                                    min_wait = se.FinishTime - ArrivalTimes;
+                                    server_if_not = ser;
+                                }
+                                // temp = false;
+
+
+                            }
+                            else
+                            {
+                                if (minutili > se.TotalWorkingTime)
+                                {
+                                    minutili = se.TotalWorkingTime;
+                                    serv_if_least = ser;
+
+                                }
+                                temp = true;
+
+                            }
+                            ser++;
+                        }
+
+
+                        if (temp == true)
+                        {
+                            TimeDistribution matchingDistribution = null;
+                            foreach (var timeDistribution in Servers[serv_if_least].TimeDistribution)
+                            {
+                                if (RandomServices >= timeDistribution.MinRange && RandomServices <= timeDistribution.MaxRange)
+                                {
+                                    matchingDistribution = timeDistribution;
+                                    break; // Exit the loop when a match is found
+                                }
+                            }
+
+                            SimulationTable.Add(new SimulationCase
+                            {
+                                AssignedServer = Servers[serv_if_least],
+                                CustomerNumber = i,
+                                RandomInterArrival = Randomfor_Intrearival,
+                                ArrivalTime = ArrivalTimes,
+                                InterArrival = matchingDistribution_for_arrival.Time,
+                                RandomService = RandomServices,
+                                StartTime = ArrivalTimes,
+                                ServiceTime = matchingDistribution.Time,
+                                EndTime = ArrivalTimes + matchingDistribution.Time,
+                                TimeInQueue = 0
+                            });
+                            Servers[serv_if_least].FinishTime = ArrivalTimes + matchingDistribution.Time;
+                            Servers[serv_if_least].TotalWorkingTime += matchingDistribution.Time;
+
+
+                        }
+                        else
+                        {
+                            TimeDistribution matchingDistribution = null;
+                            foreach (var timeDistribution in Servers[server_if_not].TimeDistribution)
+                            {
+                                if (RandomServices >= timeDistribution.MinRange && RandomServices <= timeDistribution.MaxRange)
+                                {
+                                    matchingDistribution = timeDistribution;
+                                    break; // Exit the loop when a match is found
+                                }
+                            }
+                            SimulationTable.Add(new SimulationCase
+                            {
+                                AssignedServer = Servers[server_if_not],
+                                CustomerNumber = i,
+                                RandomInterArrival = Randomfor_Intrearival,
+                                ArrivalTime = ArrivalTimes,
+                                InterArrival = matchingDistribution_for_arrival.Time,
+                                RandomService = RandomServices,
+                                StartTime = Servers[server_if_not].FinishTime,
+                                ServiceTime = matchingDistribution.Time,
+                                EndTime = Servers[server_if_not].FinishTime + matchingDistribution.Time,
+                                TimeInQueue = Servers[server_if_not].FinishTime - ArrivalTimes
+                            });
+                            Servers[server_if_not].FinishTime += matchingDistribution.Time;
+                            Servers[server_if_not].TotalWorkingTime += matchingDistribution.Time;
+                        }
+
+
+
+                    }
+
+
+
+
+                    if (SimulationTable[SimulationTable.Count - 1].EndTime >= StoppingNumber)
+                    {
+                        break;
+                    }
+                    i++;
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+        }
+
+
+
+
+
     }
 }
 
