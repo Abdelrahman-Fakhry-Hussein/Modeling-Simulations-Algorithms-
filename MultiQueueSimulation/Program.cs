@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using MultiQueueTesting;
 using MultiQueueModels;
 using static MultiQueueModels.Enums;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MultiQueueSimulation
 {
@@ -16,9 +17,21 @@ namespace MultiQueueSimulation
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+
+
         static void Main()
         {
+
+
+
+
+
+
+
+
             SimulationSystem system = new SimulationSystem();
+            //string path = @"D:\Material of Faculity level 4\Semester 1\Modeling & Simulation\Sec pdf\Lab 2_Task1\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueSimulation\TestCases\TestCase3.txt";
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             string path=null;
@@ -42,20 +55,45 @@ namespace MultiQueueSimulation
             {
                 system.Least_utlization();
             }
-
+             system.PerformanceMeasures.AverageWaitingTime = system.waitingSum /system.StoppingNumber;
+            system.PerformanceMeasures.WaitingProbability = system.ctr / system.StoppingNumber;
+            //performance for each Server
+            Console.WriteLine("Total simulation Time = " + system.totalSimulationTime);
+            for (int b = 0; b< system.NumberOfServers;b++)
+            {
+                if (system.Servers[b].customersPerServer != 0)
+                {
+                    system.Servers[b].AverageServiceTime = system.Servers[b].twt / system.Servers[b].customersPerServer;
+                }
+                else
+                    system.Servers[b].AverageServiceTime = 0;
+                system.Servers[b].idle = system.totalSimulationTime - system.Servers[b].twt;
+                system.Servers[b].IdleProbability = system.Servers[b].idle / system.totalSimulationTime;
+                system.Servers[b].Utilization = system.Servers[b].twt / system.totalSimulationTime;
+                Console.WriteLine("Total idle Time of server "+b+" is "+ system.Servers[b].idle);
+                //Console.WriteLine("      ");
+                //Console.WriteLine("Averag
+                //eServiceTime od server "+b+" is " + system.Servers[b].AverageServiceTime);
+            }
+             system.max_q();
             Form1.setSystem(system);
             Application.Run(new Form1(path));
-            List<SimulationCase> outs = system.return_data_of_server(2);
-            string result = TestingManager.Test(system, Constants.FileNames.TestCase1);
+           
+            string result = TestingManager.Test(system, Constants.FileNames.TestCase3);
 
             MessageBox.Show(result);
             
             Console.WriteLine(system.NumberOfServers);
 
 
+
+
+
+            
+
         }
-
-
+        
+       
 
     }
 }
