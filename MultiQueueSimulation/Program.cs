@@ -40,7 +40,7 @@ namespace MultiQueueSimulation
             }
             else if (system.SelectionMethod.ToString() == "LeastUtilization")
             {
-             
+                system.Least_utlization();
             }
 
             Form1.setSystem(system);
