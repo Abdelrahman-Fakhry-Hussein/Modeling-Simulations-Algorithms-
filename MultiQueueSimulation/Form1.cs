@@ -33,18 +33,19 @@ namespace MultiQueueSimulation
 
             {
                 button1.Enabled = true;
-                button2.Enabled = false;
+                
                 button3.Enabled = false;
 
             }
             else 
             {
                 button1.Enabled = false;
-                button2.Enabled = true;
+                button2.Enabled = false;
                 button3.Enabled = true;
                 setPath(path);
                 int nOServ = system2.NumberOfServers;
-                textBox1.Text = path;
+                
+                textBox1.Text = nOServ.ToString();
                 for (int i = 0; i < nOServ; i++)
                 {
                     dataGridView1.Rows.Add("Server " + (i + 1));
@@ -71,7 +72,6 @@ namespace MultiQueueSimulation
             fileDialog.Filter = "ALl files (*.*)|*.*|Text file (*.txt)|*.txt";
             fileDialog.FilterIndex = 1;
             fileDialog.ShowDialog();
-            SimulationSystem system1 = new SimulationSystem();
             
             if (fileDialog.FileName == null || fileDialog.FileName == "")
             {
@@ -106,6 +106,13 @@ namespace MultiQueueSimulation
 
         private void button2_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
+            button3.Enabled = true;
+            path = "..\\localManualTest.txt";
+            Form4 form4 = new Form4();
+            form4.ShowDialog();
+            
+            this.Close();
 
         }
 

@@ -18,6 +18,7 @@ namespace MultiQueueSimulation
         {
             InitializeComponent();
             simulationtable = x;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
         }
         private void Form2_Load(object sender, EventArgs e)

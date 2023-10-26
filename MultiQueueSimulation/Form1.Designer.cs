@@ -74,7 +74,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(128, 34);
             this.button2.TabIndex = 3;
-            this.button2.Text = "Show Summary";
+            this.button2.Text = "Input Manually";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
