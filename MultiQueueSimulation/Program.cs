@@ -55,31 +55,49 @@ namespace MultiQueueSimulation
             {
                 system.Least_utlization();
             }
-             system.PerformanceMeasures.AverageWaitingTime = system.waitingSum /system.StoppingNumber;
-            system.PerformanceMeasures.WaitingProbability = system.ctr / system.StoppingNumber;
+
+            Console.WriteLine("system.ttc");
+            Console.WriteLine(system.ttc);
+            try
+            {
+                int summi = 0;
+                for(int i = 0;i< system.SimulationTable.Count();i++)
+                {
+                    summi += system.SimulationTable[i].TimeInQueue;
+                }
+                system.PerformanceMeasures.AverageWaitingTime = ((decimal)summi / (decimal)system.SimulationTable.Count());
+            system.PerformanceMeasures.WaitingProbability = ((decimal)system.ctr / (decimal)system.SimulationTable.Count());
+            }
+            catch (Exception ex)
+            {
+                // handle exception here
+                Console.Write("Could not divide any number by 0");
+            }
             //performance for each Server
             Console.WriteLine("Total simulation Time = " + system.totalSimulationTime);
             for (int b = 0; b< system.NumberOfServers;b++)
             {
                 if (system.Servers[b].customersPerServer != 0)
                 {
-                    system.Servers[b].AverageServiceTime = system.Servers[b].twt / system.Servers[b].customersPerServer;
+                    system.Servers[b].AverageServiceTime = ((decimal)system.Servers[b].twt / (decimal)system.Servers[b].customersPerServer);
                 }
                 else
                     system.Servers[b].AverageServiceTime = 0;
-                system.Servers[b].idle = system.totalSimulationTime - system.Servers[b].twt;
-                system.Servers[b].IdleProbability = system.Servers[b].idle / system.totalSimulationTime;
-                system.Servers[b].Utilization = system.Servers[b].twt / system.totalSimulationTime;
+                int maxi = system.SimulationTable.Max((SimulationCase e) => e.EndTime);
+                system.Servers[b].idle = maxi - system.Servers[b].twt;
+                system.Servers[b].IdleProbability =((decimal) system.Servers[b].idle / (decimal)maxi);
+                system.Servers[b].Utilization = ((decimal)system.Servers[b].twt / (decimal)maxi);
                 Console.WriteLine("Total idle Time of server "+b+" is "+ system.Servers[b].idle);
                 //Console.WriteLine("      ");
                 //Console.WriteLine("Averag
                 //eServiceTime od server "+b+" is " + system.Servers[b].AverageServiceTime);
             }
              system.max_q();
+            //system.idelprobab();
             Form1.setSystem(system);
             Application.Run(new Form1(path));
            
-            string result = TestingManager.Test(system, Constants.FileNames.TestCase3);
+            string result = TestingManager.Test(system, Constants.FileNames.TestCase1);
 
             MessageBox.Show(result);
             

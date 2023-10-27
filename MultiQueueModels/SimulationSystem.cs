@@ -39,7 +39,7 @@ namespace MultiQueueModels
         public decimal ttc = 0; //total customer 
         public decimal t = 0; //once waiting time temp
         public int servingTime = 0; // work time for each server
-       
+
         public void Read_file(string FP)
         {
             int ia = -1;
@@ -194,6 +194,27 @@ namespace MultiQueueModels
                 }
             }
             return SimulationTables;
+        }
+
+        public void idelprobab()
+        {
+            int maxi = SimulationTable.Max((SimulationCase e) => e.EndTime);
+
+            Console.WriteLine("Maxiiiiiiiiiii");
+            Console.WriteLine(maxi);
+            for (int i =0;i<NumberOfServers;i++)
+            {
+                List<SimulationCase> SimulationTableas = return_data_of_server(i);
+                decimal sums = 0;
+                for(int j = 1;j<SimulationTableas.Count();j++)
+                {
+                    sums += SimulationTableas[j].ServiceTime;
+                }
+                Servers[i].IdleProbability = ((decimal)(maxi - sums) / (decimal)maxi);
+                Console.WriteLine(Servers[i].IdleProbability);
+
+            }
+           
         }
 
 
@@ -359,7 +380,7 @@ namespace MultiQueueModels
                             t = 0;
                             ctr++;
                             ttc++;
-                            
+
                         }
 
 
@@ -523,7 +544,7 @@ namespace MultiQueueModels
                             t = 0;
                             ctr++;
                             ttc++;
-                            
+
                         }
 
 
@@ -536,15 +557,15 @@ namespace MultiQueueModels
                     i++;
 
                 }
-              
+
             }
 
 
         }
-     
 
 
-        
+
+
         public void Least_utlization()
         {
 
@@ -591,8 +612,17 @@ namespace MultiQueueModels
                             EndTime = matchingDistribution.Time,
                             TimeInQueue = 0
                         });
+                        if (i == StoppingNumber)
+                        {
+                            totalSimulationTime = matchingDistribution.Time;
+                        }
                         Servers[0].FinishTime = matchingDistribution.Time;
                         Servers[0].TotalWorkingTime += matchingDistribution.Time;
+                        servingTime = matchingDistribution.Time;
+                        Servers[0].twt += servingTime;
+                        Servers[0].customersPerServer++;
+
+                        ttc++;
                     }
                     else
                     {
@@ -663,9 +693,16 @@ namespace MultiQueueModels
                                 EndTime = ArrivalTimes + matchingDistribution.Time,
                                 TimeInQueue = 0
                             });
+                            if (i == StoppingNumber)
+                            {
+                                totalSimulationTime = matchingDistribution.Time;
+                            }
                             Servers[serv_if_least].FinishTime = ArrivalTimes + matchingDistribution.Time;
                             Servers[serv_if_least].TotalWorkingTime += matchingDistribution.Time;
-
+                            servingTime = matchingDistribution.Time;
+                            Servers[server_if_not].twt += servingTime;
+                            Servers[server_if_not].customersPerServer++;
+                            ttc++;
 
                         }
                         else
@@ -692,11 +729,25 @@ namespace MultiQueueModels
                                 EndTime = Servers[server_if_not].FinishTime + matchingDistribution.Time,
                                 TimeInQueue = Servers[server_if_not].FinishTime - ArrivalTimes
                             });
+                            if (i == StoppingNumber)
+                            {
+                                totalSimulationTime = matchingDistribution.Time;
+                            }
                             Servers[server_if_not].FinishTime += matchingDistribution.Time;
                             Servers[server_if_not].TotalWorkingTime += matchingDistribution.Time;
+                            servingTime = matchingDistribution.Time;
+                            Servers[server_if_not].twt += servingTime;
+                            Servers[server_if_not].customersPerServer++;
+                            t = Servers[server_if_not].FinishTime - (ArrivalTimes); //time in queue
+
+                            // Console.WriteLine("waiting time of customer "+ i+"is "+ t);
+                            waitingSum += t;
+                            t = 0;
+                            ctr++;
+                            ttc++;
                         }
 
-
+                        
 
                     }
                 }
@@ -727,6 +778,7 @@ namespace MultiQueueModels
 
                     if (i == 1)
                     {
+                        ttc++;
                         TimeDistribution matchingDistribution = null;
                         foreach (var timeDistribution in Servers[0].TimeDistribution)
                         {
@@ -749,11 +801,19 @@ namespace MultiQueueModels
                             EndTime = matchingDistribution.Time,
                             TimeInQueue = 0
                         });
+                        if (i == StoppingNumber)
+                        {
+                            totalSimulationTime = matchingDistribution.Time;
+                        }
                         Servers[0].FinishTime = matchingDistribution.Time;
                         Servers[0].TotalWorkingTime += matchingDistribution.Time;
+                        servingTime = matchingDistribution.Time;
+                        Servers[0].twt += servingTime;
+                        Servers[0].customersPerServer++;
                     }
                     else
                     {
+
                         TimeDistribution matchingDistribution_for_arrival = null;
                         foreach (var timeDistribution in InterarrivalDistribution)
                         {
@@ -821,9 +881,16 @@ namespace MultiQueueModels
                                 EndTime = ArrivalTimes + matchingDistribution.Time,
                                 TimeInQueue = 0
                             });
+                            if (i == StoppingNumber)
+                            {
+                                totalSimulationTime = matchingDistribution.Time;
+                            }
                             Servers[serv_if_least].FinishTime = ArrivalTimes + matchingDistribution.Time;
                             Servers[serv_if_least].TotalWorkingTime += matchingDistribution.Time;
-
+                            servingTime = matchingDistribution.Time;
+                            Servers[serv_if_least].twt += servingTime;
+                            Servers[serv_if_least].customersPerServer++;
+                            ttc++;
 
                         }
                         else
@@ -850,8 +917,22 @@ namespace MultiQueueModels
                                 EndTime = Servers[server_if_not].FinishTime + matchingDistribution.Time,
                                 TimeInQueue = Servers[server_if_not].FinishTime - ArrivalTimes
                             });
+                            if (i == StoppingNumber)
+                            {
+                                totalSimulationTime = matchingDistribution.Time;
+                            }
                             Servers[server_if_not].FinishTime += matchingDistribution.Time;
                             Servers[server_if_not].TotalWorkingTime += matchingDistribution.Time;
+                            servingTime = matchingDistribution.Time;
+                            Servers[server_if_not].twt += servingTime;
+                            Servers[server_if_not].customersPerServer++;
+                            t = Servers[server_if_not].FinishTime - (ArrivalTimes); // time in queue
+
+                            // Console.WriteLine("waiting time of customer "+ i+"is "+ t);
+                            waitingSum += t;
+                            t = 0;
+                            ctr++;
+                            ttc++;
                         }
 
 
@@ -884,7 +965,7 @@ namespace MultiQueueModels
 
 
         }
-        
+
         public void RandomMethod()
         {
             Random randoms = new Random();
@@ -962,7 +1043,7 @@ namespace MultiQueueModels
                 });
                 if (i == StoppingNumber)
                 {
-                    totalSimulationTime =  matchingDistribution.Time;
+                    totalSimulationTime = matchingDistribution.Time;
                 }
                 Servers[serv].FinishTime = matchingDistribution.Time;
                 servingTime = matchingDistribution.Time;
@@ -1099,15 +1180,15 @@ namespace MultiQueueModels
                     t = 0;
                     ctr++;
                     ttc++;
-                   
+
 
                 }
-                
+
             }
-          //  List<SimulationCase> simulationCases = new List<SimulationCase>();
+            //  List<SimulationCase> simulationCases = new List<SimulationCase>();
             // Populate the simulationCases list with your simulation data
             Console.WriteLine("VECTOR DATA");
-        
+
 
 
         }
@@ -1144,11 +1225,11 @@ namespace MultiQueueModels
             {
                 PerformanceMeasures.MaxQueueLength = 0;
             }
-          
-           
+
+
             return 0;
         }
-      
+
     }
 }
 

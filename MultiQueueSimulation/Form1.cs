@@ -45,7 +45,7 @@ namespace MultiQueueSimulation
                 setPath(path);
                 int nOServ = system2.NumberOfServers;
                 
-                textBox1.Text = nOServ.ToString();
+                textBox1.Text = path;
                 for (int i = 0; i < nOServ; i++)
                 {
                     dataGridView1.Rows.Add("Server " + (i + 1));
