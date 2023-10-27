@@ -23,6 +23,7 @@ namespace MultiQueueSimulation
             path = pathinp;
             this.StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -118,13 +119,15 @@ namespace MultiQueueSimulation
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-           
-            simulationtable = system2.return_data_of_server(e.RowIndex+1);
-            Form2 frm = new Form2(simulationtable);
+
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                simulationtable = system2.return_data_of_server(e.RowIndex + 1);
+                Form2 frm = new Form2(simulationtable);
 
 
-            frm.ShowDialog();
+                frm.ShowDialog();
+            }
             //dataGridView1.Rows[e.RowIndex]
         }
     }

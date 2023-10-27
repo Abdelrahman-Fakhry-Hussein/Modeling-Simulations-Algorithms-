@@ -35,6 +35,7 @@ namespace MultiQueueSimulation
                 MessageBox.Show("error :" + ex);
             }
             stringInfo =varinfo;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void Form5_Load(object sender, EventArgs e)

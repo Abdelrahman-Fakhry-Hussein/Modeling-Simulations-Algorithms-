@@ -22,6 +22,7 @@ namespace MultiQueueSimulation
             comboBox1.Items.Add("LeastUtilization");
             comboBox2.Items.Add("NumberOfCustomers");
             comboBox2.Items.Add("SimulationEndTime");
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -97,6 +98,11 @@ namespace MultiQueueSimulation
                 form5.ShowDialog();
             }
             
+        }
+
+        private void Form4_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

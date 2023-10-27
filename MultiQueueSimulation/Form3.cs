@@ -32,13 +32,25 @@ namespace MultiQueueSimulation
             
             }
             comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             label2.Visible=false;
+            label4.Text = "";
+            label5.Text = "";
+            label6.Text = "";
+            label7.Text = "";
+            label8.Text = "";
+            label9.Text = "";
+
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Controls.Remove(chart1);
-            if(chart1.Series.Count>0)
+            int index = comboBox1.SelectedIndex;
+            label4.Text = system1.Servers[index].Utilization.ToString();
+            label5.Text = system1.Servers[index].idle.ToString();
+            label6.Text = system1.Servers[index].AverageServiceTime.ToString();
+            if (chart1.Series.Count>0)
             chart1.Series.Remove(chart1.Series[0]);
         }
 
@@ -98,43 +110,7 @@ namespace MultiQueueSimulation
 
                 }
 
-            // }
-            /*   else
-               {
-                   for (int i = 0; i < endt; i++)
-                   {
-                       if (simulationtable[0].StartTime > 0)
-                       {
-                           busyStatus.Add(0);
-                           busyStatus.Add(0);
-                           timeInSeconds.Add(0);
-                           timeInSeconds.Add(simulationtable[0].EndTime);
 
-                       }
-                       if (i > 0)
-                       {
-                           x = simulationtable[i].EndTime - simulationtable[i - 1].StartTime;
-                           if (x > 0)
-                           {
-                               busyStatus.Add(0);
-                               busyStatus.Add(0);
-                               timeInSeconds.Add(simulationtable[i].StartTime);
-                               timeInSeconds.Add(simulationtable[i].EndTime);
-                           }
-                       }
-                       if ((simulationtable[i].StartTime - simulationtable[i].EndTime) > 0)
-                       {
-                           busyStatus.Add(1);
-                           busyStatus.Add(1);
-                           timeInSeconds.Add(simulationtable[i].StartTime);
-                           timeInSeconds.Add(simulationtable[i].EndTime);
-                       }
-
-
-                   }
-               }*/
-            
-         
 
             // Create a new series
             Series series = new Series("Server Busy");
@@ -178,6 +154,11 @@ namespace MultiQueueSimulation
 
             // Add the chart to the form
             Controls.Add(chart1);
+
+            label7.Text = system1.PerformanceMeasures.AverageWaitingTime.ToString();
+            label8.Text = system1.PerformanceMeasures.MaxQueueLength.ToString();
+            label9.Text = system1.PerformanceMeasures.WaitingProbability.ToString();
+
         }
         private void Chart_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -201,6 +182,11 @@ namespace MultiQueueSimulation
                 chartArea.AxisX.ScaleView.Zoom(posXStart, posXFinish);
              
             }
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
