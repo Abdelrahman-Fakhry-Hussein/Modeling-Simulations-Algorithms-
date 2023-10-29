@@ -56,6 +56,7 @@ namespace MultiQueueSimulation
                 system.Least_utlization();
             }
 
+
             Console.WriteLine("system.ttc");
             Console.WriteLine(system.ttc);
             try
@@ -96,8 +97,8 @@ namespace MultiQueueSimulation
             //system.idelprobab();
             Form1.setSystem(system);
             Application.Run(new Form1(path));
-           
-            string result = TestingManager.Test(system, Constants.FileNames.TestCase1);
+
+            string result = TestingManager.Test(system, Constants.FileNames.TestCase2);
 
             MessageBox.Show(result);
             
